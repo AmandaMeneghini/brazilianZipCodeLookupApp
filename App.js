@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
 import api from './src/services/api'
 
 export default function App(){
   const [cep, setCep] = useState('');
+  const inputRef = useRef('');
 
   function clean(){
-    setCep('')
+    setCep('');
+    inputRef.current.focus();
   }
 
   return(
@@ -19,6 +21,7 @@ export default function App(){
           value={cep}
           onChangeText={(value) => setCep(value)}
           keyboardType='numeric'
+          ref={inputRef}
           />
       </View>
 
