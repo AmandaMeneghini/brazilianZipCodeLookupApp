@@ -13,6 +13,7 @@ import api from './src/services/api';
 export default function App() {
   const [cep, setCep] = useState('');
   const inputRef = useRef('');
+  const [cepUser, setCepUser] = useState(null);
 
   async function search() {
     if(cep == ''){
@@ -23,8 +24,10 @@ export default function App() {
 
     try {
       const response = await api.get(`${cep}/json`);
-      console.log(response.data);
+      setCepUser(response.data)
       Keyboard.dismiss();
+
+      console.log(response.data);
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
