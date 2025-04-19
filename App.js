@@ -5,6 +5,10 @@ import api from './src/services/api'
 export default function App(){
   const [cep, setCep] = useState('');
 
+  function clean(){
+    setCep('')
+  }
+
   return(
     <SafeAreaView style={styles.container}>
       <View style={styles.area}>
@@ -24,7 +28,10 @@ export default function App(){
             Buscar 
           </Text>
         </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, {backgroundColor: '#CD3E1D'}]}>
+        <TouchableOpacity 
+          style={[styles.button, {backgroundColor: '#CD3E1D'}]}
+          onPress={clean}
+          >
           <Text style={styles.buttonText}>
             Limpar
           </Text>
