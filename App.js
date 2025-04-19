@@ -13,14 +13,15 @@ export default function App() {
   const [cep, setCep] = useState('');
   const inputRef = useRef('');
 
-  function search() {
+  async function search() {
     if(cep == ''){
       alert('Digite um CEP válido');
       setCep('');
       return;
     }
 
-    
+    const response = await api.get('79003241/json');
+    console.log(response.data);
 
   }
 
