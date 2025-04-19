@@ -26,8 +26,6 @@ export default function App() {
       const response = await api.get(`${cep}/json`);
       setCepUser(response.data)
       Keyboard.dismiss();
-
-      console.log(response.data);
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
@@ -36,6 +34,7 @@ export default function App() {
 
   function clean() {
     setCep('');
+    setCepUser(null);
     inputRef.current.focus();
   }
 
