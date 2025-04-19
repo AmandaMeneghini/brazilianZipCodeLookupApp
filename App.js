@@ -1,43 +1,80 @@
-import React, { useState } from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, SafeAreaView, TextInput} from 'react-native';
-import api from './src/services/api'
+import React, {useRef, useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput,
+  Keyboard
+} from 'react-native';
+import api from './src/services/api';
 
-export default function App(){
+export default function App() {
   const [cep, setCep] = useState('');
+  const inputRef = useRef('');
+  const [cepUser, setCepUser] = useState(null);
 
-  return(
+  async function search() {
+    if(cep == ''){
+      alert('Digite um CEP válido');
+      setCep('');
+      return;
+    }
+
+    try {
+      const response = await api.get(`${cep}/json`);
+      setCepUser(response.data)
+      Keyboard.dismiss();
+    } catch (error) {
+      console.log(`ERROR: ${error}`);
+    }
+
+  }
+
+  function clean() {
+    setCep('');
+    setCepUser(null);
+    inputRef.current.focus();
+  }
+
+  return (
     <SafeAreaView style={styles.container}>
       <View style={styles.area}>
         <Text style={styles.text}>Digite o CEP desejado</Text>
         <TextInput
           style={styles.input}
-          placeholder='Ex: 79003241'
+          placeholder="Ex: 79003241"
           value={cep}
-          onChangeText={(value) => setCep(value)}
-          keyboardType='numeric'
-          />
+          onChangeText={value => setCep(value)}
+          keyboardType="numeric"
+          ref={inputRef}
+        />
       </View>
 
       <View style={styles.buttonsArea}>
-        <TouchableOpacity style={[styles.button, {backgroundColor: '#1D75CD'}]}>
-          <Text style={styles.buttonText}>
-            Buscar 
-          </Text>
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: '#1D75CD'}]}
+          onPress={search}>
+          <Text style={styles.buttonText}>Buscar</Text>
         </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, {backgroundColor: '#CD3E1D'}]}>
-          <Text style={styles.buttonText}>
-            Limpar
-          </Text>
+
+        <TouchableOpacity
+          style={[styles.button, {backgroundColor: '#CD3E1D'}]}
+          onPress={clean}>
+          <Text style={styles.buttonText}>Limpar</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.resultArea}>
-        <Text style={styles.resultItemText}>CEP: 79000000</Text>
-        <Text style={styles.resultItemText}>Logradouro: Rua Jesus is</Text>
-        <Text style={styles.resultItemText}>Bairro: Centro</Text>
-        <Text style={styles.resultItemText}>Cidade: São Paulo</Text>
-        <Text style={styles.resultItemText}>Estado: SP</Text>
-      </View>
+      {cepUser && 
+        <View style={styles.resultArea}>
+          <Text style={styles.resultItemText}>CEP: {cepUser.cep}</Text>
+          <Text style={styles.resultItemText}>Logradouro: {cepUser.logradouro}</Text>
+          <Text style={styles.resultItemText}>Bairro: {cepUser.bairro}</Text>
+          <Text style={styles.resultItemText}>Cidade: {cepUser.localidade}</Text>
+          <Text style={styles.resultItemText}>Estado: {cepUser.uf}</Text>
+        </View>
+      }
     </SafeAreaView>
   );
 }
@@ -68,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     marginTop: 15,
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   button: {
     justifyContent: 'center',
@@ -85,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  resultItemText:{
+  resultItemText: {
     fontSize: 22,
   },
-})
+});
