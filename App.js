@@ -68,11 +68,11 @@ export default function App() {
       </View>
 
       <View style={styles.resultArea}>
-        <Text style={styles.resultItemText}>CEP: 79000000</Text>
-        <Text style={styles.resultItemText}>Logradouro: Rua Jesus is</Text>
-        <Text style={styles.resultItemText}>Bairro: Centro</Text>
-        <Text style={styles.resultItemText}>Cidade: São Paulo</Text>
-        <Text style={styles.resultItemText}>Estado: SP</Text>
+        <Text style={styles.resultItemText}>CEP: {cepUser.cep}</Text>
+        <Text style={styles.resultItemText}>Logradouro: {cepUser.logradouro}</Text>
+        <Text style={styles.resultItemText}>Bairro: {cepUser.bairro}</Text>
+        <Text style={styles.resultItemText}>Cidade: {cepUser.localidade}</Text>
+        <Text style={styles.resultItemText}>Estado: {cepUser.uf}</Text>
       </View>
     </SafeAreaView>
   );
