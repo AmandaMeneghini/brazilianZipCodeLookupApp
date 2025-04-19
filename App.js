@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Keyboard
 } from 'react-native';
 import api from './src/services/api';
 
@@ -19,10 +20,11 @@ export default function App() {
       setCep('');
       return;
     }
-    
+
     try {
       const response = await api.get(`${cep}/json`);
       console.log(response.data);
+      Keyboard.dismiss();
     } catch (error) {
       console.log(`ERROR: ${error}`);
     }
