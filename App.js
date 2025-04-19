@@ -19,9 +19,13 @@ export default function App() {
       setCep('');
       return;
     }
-
-    const response = await api.get('79003241/json');
-    console.log(response.data);
+    
+    try {
+      const response = await api.get(`${cep}/json`);
+      console.log(response.data);
+    } catch (error) {
+      console.log(`ERROR: ${error}`);
+    }
 
   }
 
